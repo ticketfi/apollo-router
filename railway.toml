@@ -1,0 +1,26 @@
+# Railway Configuration for Apollo Router
+# GraphQL Federation Gateway - Routes queries to backend microservices
+#
+# NOTE: Deployments are triggered by GitHub Actions, not Railway auto-deploy.
+# See: .github/workflows/railway-deploy-router.yml (if exists)
+#
+# The router uses a pre-built Docker image (not Railpack builder)
+# and requires GraphOS credentials to fetch the supergraph schema.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+watchPaths = [
+  "router.yaml",
+  "Dockerfile"
+]
+
+[deploy]
+startCommand = "/init"
+healthcheckPath = "/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+# Cancel prior builds/deployments when new changes are pushed
+overlapSeconds = 0
+drainingSeconds = 0
