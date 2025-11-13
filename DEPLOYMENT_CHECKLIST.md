@@ -15,7 +15,7 @@ Verify these are set in your Railway production environment:
 
 - [ ] `APOLLO_KEY` - Your Apollo GraphOS API key
 - [ ] `APOLLO_GRAPH_REF` - Your graph reference (e.g., `ticketfi-backend@current` for production)
-- [ ] `PORT` - Railway sets this automatically (usually 4000), but verify it's set
+- [ ] `PORT` - **DO NOT manually set this** - Railway sets it automatically (defaults to `8080`). If you manually set a different port, it will cause 502 errors due to port mismatch.
 
 ### 🔒 Security Considerations
 

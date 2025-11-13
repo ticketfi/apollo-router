@@ -53,7 +53,7 @@ POSTHOG_PROJECT_ID=245543
 RAILWAY_PROJECT_ID=ca72e15c-2ec5-4f38-a08f-2917a9185589
 ```
 
-**Note:** `PORT` is automatically set by Railway - you don't need to add it manually.
+**Important:** `PORT` is automatically set by Railway (defaults to `8080`) - **DO NOT manually set PORT** in Railway dashboard. If you set a different port manually (e.g., `8088`), it will cause a mismatch between what Railway expects and what the router listens on, resulting in 502 errors. The router.yaml uses `${env.PORT:-4000}`, so it will automatically use Railway's assigned port.
 
 ### 3. Set Up Domain
 
@@ -156,7 +156,7 @@ pnpm doppler:pull:prd
    - Check that `Dockerfile` exists
    - Verify `router.yaml` is present
 
-### Health Check Failing
+### Health Check Failing (502 Errors)
 
 1. **Check Health Endpoint:**
 
@@ -165,8 +165,22 @@ pnpm doppler:pull:prd
    ```
 
 2. **Verify Router Config:**
+
    - Check logs for router startup messages
    - Verify health check path matches `/health` in `router.yaml`
+   - Verify router is listening on the correct port (check logs for `Listening on 0.0.0.0:PORT`)
+
+3. **Common Causes:**
+   - **Timing Issue**: Railway may check health before router is fully ready
+     - Solution: Health check timeout is set to 120 seconds in `railway.toml`
+     - Wait a minute or two after deployment and check again
+   - **Port Mismatch**: Router listening on different port than Railway expects
+     - **Common cause**: Manually setting `PORT` in Railway dashboard (e.g., `8088`) when Railway expects `8080`
+     - Solution: **Remove any manual `PORT` setting** from Railway - let Railway auto-assign it (defaults to `8080`)
+     - The router uses `${env.PORT:-4000}`, so it will automatically use Railway's assigned port
+     - Verify no `PORT` variable is manually set in Railway environment variables
+   - **Health Endpoint Not Accessible**: Router health check must listen on `0.0.0.0` (not `127.0.0.1`)
+     - Solution: Verify `router.yaml` has `listen: 0.0.0.0:${env.PORT:-4000}` for health_check
 
 ### CORS Issues
 
