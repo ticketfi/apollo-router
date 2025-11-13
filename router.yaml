@@ -3,6 +3,12 @@
 
 sandbox:
   enabled: false
+
+# Fetch supergraph schema from Apollo GraphOS
+# Router uses APOLLO_KEY and APOLLO_GRAPH_REF env vars to authenticate
+uplink:
+  poll_interval: 10s # Check for schema updates every 10 seconds
+
 supergraph:
   introspection: true
   listen: 0.0.0.0:${env.PORT:-4000}
@@ -100,13 +106,6 @@ traffic_shaping:
   all:
     timeout: 30s
     deduplicate_query: true
-  subgraphs:
-    products:
-      timeout: 5s
-      deduplicate_query: true
-    users:
-      timeout: 5s
-      deduplicate_query: true
 
 # Telemetry
 telemetry:
