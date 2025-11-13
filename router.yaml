@@ -4,10 +4,9 @@
 sandbox:
   enabled: false
 
-# Fetch supergraph schema from Apollo GraphOS
-# Router uses APOLLO_KEY and APOLLO_GRAPH_REF env vars to authenticate
-uplink:
-  poll_interval: 10s # Check for schema updates every 10 seconds
+# Apollo Router automatically fetches supergraph schema from GraphOS
+# when APOLLO_KEY and APOLLO_GRAPH_REF environment variables are set.
+# No explicit uplink configuration needed - router handles this automatically.
 
 supergraph:
   introspection: true
