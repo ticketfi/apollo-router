@@ -1,0 +1,46 @@
+{
+  "name": "@ticketfi/apollo-router",
+  "version": "1.0.0",
+  "description": "Apollo Router configuration for TicketFi production deployment",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "docker build -t apollo-router-local . && docker run -it --env-file .env -p 4000:4000 apollo-router-local",
+    "build": "docker build -t apollo-router-local .",
+    "start": "docker run -it --env-file .env -p 4000:4000 apollo-router-local",
+    "validate:router": "docker run --rm -v $(pwd)/router.yaml:/config/router_config.yaml ghcr.io/apollographql/apollo-runtime:latest --config /config/router_config.yaml --check",
+    "validate:supergraph": "rover supergraph compose --config ./supergraph.yaml > /dev/null",
+    "lint:yaml": "yamllint router.yaml supergraph.yaml",
+    "test": "pnpm validate:router && pnpm validate:supergraph",
+    "doppler:pull": "pnpm doppler:pull:dev && pnpm doppler:pull:stg && pnpm doppler:pull:prd",
+    "doppler:pull:dev": "doppler secrets download --project ticketfi-router --config dev --format env-no-quotes --no-file > .env.dev",
+    "doppler:pull:stg": "doppler secrets download --project ticketfi-router --config stg --format env-no-quotes --no-file > .env.stg",
+    "doppler:pull:prd": "doppler secrets download --project ticketfi-router --config prd --format env-no-quotes --no-file > .env.prd",
+    "doppler:pull:local": "doppler secrets download --project ticketfi-router --config dev --format env-no-quotes --no-file > .env",
+    "doppler:push": "pnpm doppler:push:dev && pnpm doppler:push:stg && pnpm doppler:push:prd",
+    "doppler:push:dev": "bash scripts/doppler-push.sh .env.dev ticketfi-router dev",
+    "doppler:push:stg": "bash scripts/doppler-push.sh .env.stg ticketfi-router stg",
+    "doppler:push:prd": "bash scripts/doppler-push.sh .env.prd ticketfi-router prd",
+    "doppler:status": "doppler secrets --project ticketfi-router --config dev --json | jq 'keys | length' && doppler secrets --project ticketfi-router --config stg --json | jq 'keys | length' && doppler secrets --project ticketfi-router --config prd --json | jq 'keys | length'",
+    "doppler:status:dev": "doppler secrets --project ticketfi-router --config dev --json | jq 'keys | sort'",
+    "doppler:status:stg": "doppler secrets --project ticketfi-router --config stg --json | jq 'keys | sort'",
+    "doppler:status:prd": "doppler secrets --project ticketfi-router --config prd --json | jq 'keys | sort'"
+  },
+  "keywords": [
+    "apollo",
+    "router",
+    "graphql",
+    "federation",
+    "gateway"
+  ],
+  "author": "TicketFi",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
+
