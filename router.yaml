@@ -120,6 +120,10 @@ traffic_shaping:
   #     deduplicate_query: true
 
 # Telemetry
+# NOTE: Apollo Router v2.7.0 does not support setting service.name via configuration.
+# The 'resource' section is not supported and will cause router startup failures.
+# The 'unknown_service:router' designation in observability tools is a known limitation
+# of this router version and does not affect functionality.
 telemetry:
   apollo:
     endpoint: https://usage-reporting.api.apollographql.com/api/ingress/traces
