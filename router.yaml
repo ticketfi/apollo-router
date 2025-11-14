@@ -105,6 +105,19 @@ traffic_shaping:
   all:
     timeout: 30s
     deduplicate_query: true
+    # DNS resolution strategy - affects router → subgraph (GraphQL) connections only
+    # All subgraphs are Railway internal IPv6 services, so use ipv6_only for optimal performance
+    # Note: This does NOT affect:
+    #   - External client → router connections (IPv4 ingress is fine)
+    #   - Non-GraphQL services (they're not subgraphs, so not affected by router config)
+    dns_resolution_strategy: ipv6_only
+  # Per-subgraph configuration for user service
+  # Uncomment and configure if user service has specific issues:
+  # subgraphs:
+  #   users:  # Replace 'users' with your actual subgraph name in GraphOS
+  #     timeout: 30s
+  #     dns_resolution_strategy: ipv6_only  # All subgraphs are Railway internal IPv6
+  #     deduplicate_query: true
 
 # Telemetry
 telemetry:
