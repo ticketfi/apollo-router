@@ -1,0 +1,7 @@
+# Prettier configuration for consistent YAML formatting
+# Note: Prettier preserves quotes in YAML by default
+# Use 'format:yaml' script to format files, but manual quote consistency is required
+
+# For YAML files, we enforce double quotes via convention
+# This config ensures consistent formatting otherwise
+

@@ -10,7 +10,12 @@ sandbox:
 
 supergraph:
   introspection: true
-  listen: 0.0.0.0:${env.PORT:-4000}
+  # CRITICAL: Bind to IPv6 ([::]) for Railway private networking compatibility
+  # Railway's private networking uses IPv6 Wireguard tunnels
+  # See: https://docs.railway.com/reference/private-networking
+  # Binding to '[::]' enables dual-stack (IPv6 + IPv4) for both private network and public HTTPS
+  # See: RCA-033: docs/troubleshooting/rca/RCA-033-railway-private-networking-ipv6-binding.md
+  listen: '[::]:${env.PORT:-4000}'
   path: /graphql
   query_planning:
     cache:
@@ -97,7 +102,10 @@ limits:
 # Health check
 health_check:
   enabled: true
-  listen: 0.0.0.0:${env.PORT:-4000}
+  # CRITICAL: Bind to IPv6 ([::]) for Railway health checks via private networking
+  # Railway's private networking uses IPv6 Wireguard tunnels
+  # See: https://docs.railway.com/reference/private-networking
+  listen: '[::]:${env.PORT:-4000}'
   path: /health
 
 # Traffic shaping for subgraph health and reliability
@@ -131,7 +139,10 @@ telemetry:
     metrics:
       prometheus:
         enabled: true
-        listen: 0.0.0.0:${env.PORT:-4000}
+        # CRITICAL: Bind to IPv6 ([::]) for Railway metrics collection via private networking
+        # Railway's private networking uses IPv6 Wireguard tunnels
+        # See: https://docs.railway.com/reference/private-networking
+        listen: '[::]:${env.PORT:-4000}'
         path: /metrics
   instrumentation:
     spans:

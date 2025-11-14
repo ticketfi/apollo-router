@@ -1,0 +1,21 @@
+---
+# YAML Lint configuration
+# Enforces YAML syntax correctness
+# Note: Quote style consistency should be enforced via Prettier/formatting
+
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  comments:
+    min-spaces-from-content: 1
+  indentation:
+    spaces: 2
+    indent-sequences: true
+  quoted-strings:
+    # Allow both single and double quotes, but prefer double
+    quote-type: double
+    required: only-when-needed
+
