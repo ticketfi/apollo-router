@@ -8,9 +8,8 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/apollographql/apollo-runtime"],
-      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+_router\\d+\\.\\d+\\.\\d+_mcp-server\\d+\\.\\d+\\.\\d+$/",
-      "versioning": "loose",
+      "matchPackageNames": ["ghcr.io/apollographql/router"],
+      "versioning": "semver",
       "prCreation": "immediate"
     }
   ]

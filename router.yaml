@@ -1,5 +1,5 @@
-# The runtime container comes with sensible defaults that work well for most use cases.
-# Uncomment the COPY and CMD lines in the Dockerfile to use this configuration.
+# Apollo Router v2.12.1 configuration for TicketFi production deployment.
+# Copied into the container via Dockerfile.
 
 sandbox:
   enabled: false
@@ -128,10 +128,9 @@ traffic_shaping:
   #     deduplicate_query: true
 
 # Telemetry
-# NOTE: Apollo Router v2.7.0 does not support setting service.name via configuration.
-# The 'resource' section is not supported and will cause router startup failures.
+# NOTE: service.name via the 'resource' section is not supported in router configuration.
 # The 'unknown_service:router' designation in observability tools is a known limitation
-# of this router version and does not affect functionality.
+# and does not affect functionality.
 telemetry:
   apollo:
     endpoint: https://usage-reporting.api.apollographql.com/api/ingress/traces
