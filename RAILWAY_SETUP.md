@@ -37,7 +37,10 @@ Add these environment variables for the **production** environment:
 ```bash
 APOLLO_KEY=service:ticketfi-backend:GGT7wuB8sKTC5jhLhBAwVw
 APOLLO_GRAPH_REF=ticketfi-backend@current
-APOLLO_ROUTER_CONFIG_PATH=router.yaml
+# Absolute path — the standalone router:v2.x image has WORKDIR /dist, so a
+# relative "router.yaml" would resolve to /dist/router.yaml (wrong). The
+# Dockerfile copies config to /dist/config/router.yaml; point the env there.
+APOLLO_ROUTER_CONFIG_PATH=/dist/config/router.yaml
 NODE_ENV=production
 LOG_LEVEL=error
 COOKIE_DOMAIN=.ticketfi.ai
@@ -68,7 +71,9 @@ RAILWAY_PROJECT_ID=ca72e15c-2ec5-4f38-a08f-2917a9185589
 1. **Service Settings:**
 
    - **Build Command:** (auto-detected from `railway.toml`)
-   - **Start Command:** `/init` (from `railway.toml`)
+   - **Start Command:** (none — the standalone `router:v2.x` image uses its own
+     entrypoint; do NOT set `/init`, which only existed in the legacy
+     `apollo-runtime` s6-overlay image and would crash the container)
    - **Health Check Path:** `/health` (from `railway.toml`)
 
 2. **Deployment:**

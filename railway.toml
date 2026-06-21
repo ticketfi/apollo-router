@@ -15,8 +15,14 @@ watchPaths = [
   "Dockerfile"
 ]
 
+# NOTE (TF-3136 / TF-5785): no startCommand override.
+# The legacy apollo-runtime image used s6-overlay with ENTRYPOINT ["/init"];
+# the standalone ghcr.io/apollographql/router:v2.x image has no /init — its
+# entrypoint is the router binary, which loads config from APOLLO_ROUTER_CONFIG_PATH
+# (set to /dist/config/router.yaml in the Railway env, matching the Dockerfile COPY)
+# and fetches the supergraph from GraphOS via APOLLO_KEY / APOLLO_GRAPH_REF.
+# Overriding startCommand with /init here would crash the container on boot.
 [deploy]
-startCommand = "/init"
 healthcheckPath = "/health"
 healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"

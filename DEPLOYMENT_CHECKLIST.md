@@ -15,6 +15,7 @@ Verify these are set in your Railway production environment:
 
 - [ ] `APOLLO_KEY` - Your Apollo GraphOS API key
 - [ ] `APOLLO_GRAPH_REF` - Your graph reference (e.g., `ticketfi-backend@current` for production)
+- [ ] `APOLLO_ROUTER_CONFIG_PATH=/dist/config/router.yaml` - **absolute path** for the standalone `router:v2.x` image (WORKDIR `/dist`). A relative `router.yaml` resolves to `/dist/router.yaml` and the router won't find the config → boot failure. Must match the Dockerfile COPY target.
 - [ ] `PORT` - **DO NOT manually set this** - Railway sets it automatically (defaults to `8080`). If you manually set a different port, it will cause 502 errors due to port mismatch.
 
 ### 🔒 Security Considerations
@@ -60,7 +61,8 @@ Verify these are set in your Railway production environment:
 **Railway Config:**
 
 - Builder: Dockerfile
-- Start Command: `/init`
+- Start Command: none (standalone `router:v2.x` image entrypoint; `/init` was legacy-image-only and would crash)
+- Config path: `APOLLO_ROUTER_CONFIG_PATH=/dist/config/router.yaml` (absolute; matches Dockerfile COPY)
 - Health Check Path: `/health`
 - Health Check Timeout: 120 seconds
 
