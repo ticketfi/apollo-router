@@ -1,3 +1,19 @@
+> # ⛔ DEPRECATED — DO NOT USE
+> **This repository is not deployed anywhere and is no longer maintained.**
+>
+> The production Apollo Router (the `api.ticketfi.ai` GraphQL gateway) is built
+> and deployed from the **monorepo**:
+>
+> ### → [`ticketfi-v2/infrastructure/apollo-router/`](https://github.com/ticketfi/ticketfi-v2/tree/main/infrastructure/apollo-router)
+>
+> Make all router changes there. The Railway `router` service in the
+> `ticketfi-backend` project is sourced from `ticketfi/ticketfi-v2`
+> (root dir `/infrastructure/apollo-router`). Nothing here ships to prod.
+>
+> _Kept only for git history; safe to archive._
+
+---
+
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/apollo-router)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=github.com/ticketfi/router-template)
 
